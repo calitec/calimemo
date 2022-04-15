@@ -7,11 +7,13 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../utils/fetcher";
 import { Button } from "antd";
 import { toast } from "react-toastify";
+import { Spin } from "antd";
 
 export default function Date() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, error } = useSWR(`/date/${id}`, fetcher);
+  const [loading, setLoading] = useState(false);
   const { mutate } = useSWRConfig();
   const [content, setContent] = useState({
     selectedDate: id,
@@ -57,7 +59,9 @@ export default function Date() {
       }
       try {
         mutate("/date", content, false);
+        setLoading(true);
         await httpCall("post", `/date`, content);
+        setLoading(false);
         mutate("/date");
         navigate("/");
       } catch (err) {
@@ -66,7 +70,9 @@ export default function Date() {
     } else {
       try {
         mutate(`/date/${id}`, content, false);
+        setLoading(true);
         await httpCall("put", `/date/${id}`, content);
+        setLoading(false);
         mutate(`/date/${id}`);
         navigate("/");
       } catch (err) {
@@ -78,7 +84,7 @@ export default function Date() {
   const goBack = () => {
     navigate(-1);
   };
-
+  if (loading) return <Spin css={spin} />;
   return (
     <section css={wrapper}>
       <ul>
@@ -187,7 +193,17 @@ const wrapper = css`
       background-color: #363636;
     }
   }
+  .ant-btn-default {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
   .ant-btn-link {
     padding: 0;
   }
+`;
+
+const spin = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
