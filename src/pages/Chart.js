@@ -34,7 +34,6 @@ export default function Chart() {
         await setPlace(placeData);
       }
       getPlace();
-      return () => getPlace();
     } catch (err) {
       console.error(err);
     }
@@ -72,8 +71,6 @@ export default function Chart() {
 
     arr = [...arr, good, bad, bland];
     setGraph(arr);
-
-    // return () => Emotions();
   }, [data]);
 
   const onRefresh = async () => {

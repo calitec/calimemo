@@ -84,7 +84,11 @@ export default function Date() {
   const goBack = () => {
     navigate(-1);
   };
-  if (loading) return <Spin css={spin} />;
+
+  const notPosted = data !== null;
+  const yetFetched = !data && !error;
+  if ((notPosted && yetFetched) || loading) return <Spin css={spin} />;
+
   return (
     <section css={wrapper}>
       <ul>
