@@ -21,16 +21,20 @@ export default function Chart() {
   const [graph, setGraph] = useState([]);
   const { width, height } = useScreenSize();
 
-  useEffect(async () => {
+  useEffect(() => {
     const getPlaceAtSession = sessionStorage.getItem("place");
     if (getPlaceAtSession) {
       setPlace(JSON.parse(getPlaceAtSession));
       return;
     }
     try {
-      const placeData = await fetcher("get", "/place");
-      await sessionStorage.setItem("place", JSON.stringify(placeData));
-      await setPlace(placeData);
+      async function getPlace() {
+        const placeData = await httpCall("get", "/place");
+        await sessionStorage.setItem("place", JSON.stringify(placeData));
+        await setPlace(placeData);
+      }
+      getPlace();
+      return () => getPlace();
     } catch (err) {
       console.error(err);
     }
@@ -69,7 +73,7 @@ export default function Chart() {
     arr = [...arr, good, bad, bland];
     setGraph(arr);
 
-    return () => Emotions();
+    // return () => Emotions();
   }, [data]);
 
   const onRefresh = async () => {
