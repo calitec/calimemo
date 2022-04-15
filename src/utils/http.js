@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? "https://calimemo-server.herokuapp.com/"
+  process.env.NODE_ENV == "production"
+    ? "http://www.calimemo.info/"
     : "http://localhost:3001";
 
 axios.defaults.baseURL = DOMAIN;
