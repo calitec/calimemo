@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const DOMAIN =
   process.env.NODE_ENV === "production"
-    ? "https://cali-memo-app-server.herokuapp.com/"
+    ? "https://calimemo-server.herokuapp.com/"
     : "http://localhost:3001";
 
 axios.defaults.baseURL = DOMAIN;
