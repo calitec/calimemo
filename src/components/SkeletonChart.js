@@ -21,6 +21,8 @@ const wrapper = css`
   }
   div {
     width: 100%;
+    height: 500px;
+    object-fit: cover;
   }
   span {
     display: inline-block;
@@ -51,6 +53,12 @@ const wrapper = css`
     }
     100% {
       background-color: rgba(165, 165, 165, 0.1);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    div {
+      height: auto;
+      padding-top: 70%;
     }
   }
 `;

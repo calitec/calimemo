@@ -126,8 +126,10 @@ export default function Chart() {
               <div>
                 <img src={place.img} alt={place.name} />
               </div>
-              <em>{place.name}</em>
-              <p>{place.description}</p>
+              <div className="suggestion-texts">
+                <em>{place.name}</em>
+                <p>{place.description}</p>
+              </div>
             </>
           ) : (
             <SkeletonChart />
@@ -145,6 +147,7 @@ const wrapper = css`
   > div {
     width: 80%;
     padding: 0 2em 2em 2em;
+    margin: 0 auto;
     > span {
       display: inline-block;
       font: 400 16px/16px "Noto Sans KR";
@@ -154,25 +157,28 @@ const wrapper = css`
   }
 
   .suggestion {
+    margin-top: 5%;
     div {
       position: relative;
-      width: 100%;
-      overflow: hidden;
       img {
         width: 100%;
+        height: 500px;
         object-fit: cover;
       }
     }
-    em,
-    p {
-      font: 12px/12px "Noto Sans KR";
-      color: #363636;
-    }
-    em {
-      font-weight: 500;
-    }
-    p {
-      font-weight: 400;
+    .suggestion-texts {
+      margin-top: 1em;
+      em,
+      p {
+        font: 12px/20px "Noto Sans KR";
+        color: #363636;
+      }
+      em {
+        font-weight: 500;
+      }
+      p {
+        font-weight: 400;
+      }
     }
   }
   .ant-btn-link {
@@ -185,6 +191,11 @@ const wrapper = css`
       padding: 0 1em;
       &.suggestion {
         padding: 4em 1em 4em;
+        div {
+          img {
+            height: auto;
+          }
+        }
       }
     }
   }

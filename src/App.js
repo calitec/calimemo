@@ -4,15 +4,15 @@ import loadable from "@loadable/component";
 import Layouts from "./components/Layouts";
 import useSWR, { SWRConfig } from "swr";
 import fetcher from "./utils/fetcher";
-import Home from "./pages/Home";
-import Chart from "./pages/Chart";
-import Login from "./pages/Login";
-import Date from "./pages/Date";
 import { ToastContainer } from "react-toastify";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import { HelmetProvider } from "react-helmet-async";
+import Home from "./pages/Home";
 
+const Chart = loadable(() => import("./pages/Chart"));
+const Login = loadable(() => import("./pages/Login"));
+const Date = loadable(() => import("./pages/Date"));
 const Register = loadable(() => import("./pages/Register"));
 const NotFound = loadable(() => import("./pages/NotFound"));
 
