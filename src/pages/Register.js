@@ -6,7 +6,8 @@ import { Form, Input, Button } from "antd";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { myAxios } from "../utils/http";
+import { Helmet } from "react-helmet-async";
 
 export default function Register() {
   const [info, setInfo] = useState({
@@ -55,7 +56,7 @@ export default function Register() {
       return;
     }
     try {
-      await axios.post("/user", data, {
+      await myAxios.post("/user", data, {
         withCredentials: true,
       });
       toast.info("회원가입이 완료 되었습니다.");
@@ -66,57 +67,64 @@ export default function Register() {
   };
 
   return (
-    <section css={wrapper}>
-      <h3>회원가입</h3>
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        autoComplete="off"
-      >
-        <Input
-          name="username"
-          placeholder="아이디"
-          value={username}
-          onChange={onChange}
-        />
-        <Input.Password
-          name="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={onChange}
-        />
-        <Input.Password
-          name="passwordCheck"
-          placeholder="비밀번호 재확인"
-          value={passwordCheck}
-          onChange={onChange}
-        />
-
-        {/* 패스워드 유효성 검사 */}
-        {onValidPassword()}
-
-        <Form.Item
+    <>
+      <Helmet>
+        <title>회원가입 | Calimemo</title>
+        <meta name="robots" content="noindex" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Helmet>
+      <section css={wrapper}>
+        <h3>회원가입</h3>
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
           wrapperCol={{
-            offset: 8,
             span: 16,
           }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          autoComplete="off"
         >
-          <Button type="primary" htmlType="submit">
-            가입하기
-          </Button>
-          계정이 이미 있으신가요? <Link to="/Login">로그인 하기</Link>
-        </Form.Item>
-      </Form>
-    </section>
+          <Input
+            name="username"
+            placeholder="아이디"
+            value={username}
+            onChange={onChange}
+          />
+          <Input.Password
+            name="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={onChange}
+          />
+          <Input.Password
+            name="passwordCheck"
+            placeholder="비밀번호 재확인"
+            value={passwordCheck}
+            onChange={onChange}
+          />
+
+          {/* 패스워드 유효성 검사 */}
+          {onValidPassword()}
+
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              가입하기
+            </Button>
+            계정이 이미 있으신가요? <Link to="/Login">로그인 하기</Link>
+          </Form.Item>
+        </Form>
+      </section>
+    </>
   );
 }
 

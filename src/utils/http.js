@@ -6,3 +6,8 @@ export const DOMAIN =
     : "http://localhost:3001";
 
 axios.defaults.baseURL = DOMAIN;
+
+export const myAxios = axios.create({
+  baseURL: DOMAIN,
+  withCredentials: true,
+});

@@ -12,7 +12,7 @@ import moment from "moment";
 import { useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../utils/fetcher";
-import axios from "axios";
+import { myAxios } from "../utils/http";
 
 export default function Layouts() {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function Layouts() {
 
   const onLogout = async () => {
     mutate("/user", null, false);
-    await axios.post("/user/logout", null, {
+    await myAxios.post("/user/logout", null, {
       withCredentials: true,
     });
     mutate("/user");

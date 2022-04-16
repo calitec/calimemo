@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from "antd";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
-import axios from "axios";
+import { myAxios } from "../utils/http";
+import { Helmet } from "react-helmet-async";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function Login() {
     e.preventDefault();
     const data = info;
     try {
-      const posted = await axios.post("/user/login", data, {
+      const posted = await myAxios.post("/user/login", data, {
         withCredentials: true,
       });
       if (posted) {
@@ -71,67 +72,74 @@ export default function Login() {
   };
 
   return (
-    <section css={wrapper}>
-      <h3>로그인</h3>
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onSubmitCapture={onFinish}
-        autoComplete="off"
-      >
-        <Input
-          name="username"
-          placeholder="아이디"
-          value={username}
-          required
-          onChange={onChange}
-        />
-
-        <Input.Password
-          name="password"
-          placeholder="비밀번호"
-          value={password}
-          required
-          onChange={onChange}
-        />
-        <Form.Item
-          name="remember"
-          valuePropName={saveUsername && "checked"}
+    <>
+      <Helmet>
+        <title>로그인 | Calimemo</title>
+        <meta name="robots" content="noindex" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Helmet>
+      <section css={wrapper}>
+        <h3>로그인</h3>
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
           wrapperCol={{
-            offset: 8,
             span: 16,
           }}
-          onChange={onCheckUsername}
-        >
-          <Checkbox>로그인 아이디 기억하기</Checkbox>
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
+          initialValues={{
+            remember: true,
           }}
+          onSubmitCapture={onFinish}
+          autoComplete="off"
         >
-          <Button type="primary" htmlType="submit">
-            로그인
-          </Button>
-          <div className="forTest">
-            <Button type="primary" htmlType="submit" onClick={getTestUser}>
-              테스트 계정 로그인
+          <Input
+            name="username"
+            placeholder="아이디"
+            value={username}
+            required
+            onChange={onChange}
+          />
+
+          <Input.Password
+            name="password"
+            placeholder="비밀번호"
+            value={password}
+            required
+            onChange={onChange}
+          />
+          <Form.Item
+            name="remember"
+            valuePropName={saveUsername && "checked"}
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+            onChange={onCheckUsername}
+          >
+            <Checkbox>로그인 아이디 기억하기</Checkbox>
+          </Form.Item>
+
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              로그인
             </Button>
-          </div>
-          아직 회원이 아니신가요? <Link to="/Register">회원가입 하기</Link>
-        </Form.Item>
-      </Form>
-    </section>
+            <div className="forTest">
+              <Button type="primary" htmlType="submit" onClick={getTestUser}>
+                테스트 계정 로그인
+              </Button>
+            </div>
+            아직 회원이 아니신가요? <Link to="/Register">회원가입 하기</Link>
+          </Form.Item>
+        </Form>
+      </section>
+    </>
   );
 }
 

@@ -6,8 +6,9 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../utils/fetcher";
 import { Button } from "antd";
 import { toast } from "react-toastify";
-import { Spin } from "antd";
-import axios from "axios";
+import SkeletonPost from "../components/SkeletonPost";
+import { myAxios } from "../utils/http";
+import { Helmet } from "react-helmet-async";
 
 export default function Date() {
   const { id } = useParams();
@@ -42,7 +43,7 @@ export default function Date() {
   const onDestroy = async (e) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await axios.delete(`/date/${id}`, content, {
+        await myAxios.delete(`/date/${id}`, content, {
           withCredentials: true,
         });
         mutate(`/date/${id}`);
@@ -62,7 +63,7 @@ export default function Date() {
       try {
         mutate("/date", content, false);
         setLoading(true);
-        await axios.post("/date", content, {
+        await myAxios.post("/date", content, {
           withCredentials: true,
         });
         setLoading(false);
@@ -75,7 +76,7 @@ export default function Date() {
       try {
         mutate(`/date/${id}`, content, false);
         setLoading(true);
-        await axios.put(`/date/${id}`, content, {
+        await myAxios.put(`/date/${id}`, content, {
           withCredentials: true,
         });
         setLoading(false);
@@ -93,43 +94,50 @@ export default function Date() {
 
   const notPosted = data !== null;
   const yetFetched = !data && !error;
-  if ((notPosted && yetFetched) || loading) return <Spin css={spin} />;
+  if ((notPosted && yetFetched) || loading) return <SkeletonPost />;
 
   return (
-    <section css={wrapper}>
-      <ul>
-        오늘 나의 감정은&nbsp;
-        {["좋음", "보통", "나쁨"].map((item, index) => {
-          return (
-            <li
-              key={item}
-              className={content.emotion == item ? "active" : ""}
-              onClick={() => onSelectEmotion(item)}
-            >
-              <span>{item.toUpperCase()}</span>
-              <div className="check"></div>
-            </li>
-          );
-        })}
-      </ul>
-      <textarea
-        name="content"
-        id=""
-        cols="30"
-        rows="10"
-        value={content.content}
-        onChange={onChange}
-      />
-      <Button type="primary" onClick={onPostDiary}>
-        저장
-      </Button>
-      {data && <Button onClick={onDestroy}>삭제</Button>}
-      <div>
-        <Button type="link" onClick={goBack}>
-          뒤로 가기
+    <>
+      <Helmet>
+        <title>메모 | Calimemo</title>
+        <meta name="robots" content="noindex" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Helmet>
+      <section css={wrapper}>
+        <ul>
+          오늘 나의 감정은&nbsp;
+          {["좋음", "보통", "나쁨"].map((item, index) => {
+            return (
+              <li
+                key={item}
+                className={content.emotion == item ? "active" : ""}
+                onClick={() => onSelectEmotion(item)}
+              >
+                <span>{item.toUpperCase()}</span>
+                <div className="check"></div>
+              </li>
+            );
+          })}
+        </ul>
+        <textarea
+          name="content"
+          id=""
+          cols="30"
+          rows="10"
+          value={content.content}
+          onChange={onChange}
+        />
+        <Button type="primary" onClick={onPostDiary}>
+          저장
         </Button>
-      </div>
-    </section>
+        {data && <Button onClick={onDestroy}>삭제</Button>}
+        <div>
+          <Button type="link" onClick={goBack}>
+            뒤로 가기
+          </Button>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -209,11 +217,4 @@ const wrapper = css`
   .ant-btn-link {
     padding: 0;
   }
-`;
-
-const spin = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;

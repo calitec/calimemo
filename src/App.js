@@ -2,12 +2,16 @@ import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import loadable from "@loadable/component";
 import Layouts from "./components/Layouts";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR, { SWRConfig } from "swr";
 import fetcher from "./utils/fetcher";
 import Home from "./pages/Home";
 import Chart from "./pages/Chart";
 import Login from "./pages/Login";
 import Date from "./pages/Date";
+import { ToastContainer } from "react-toastify";
+import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
+import { HelmetProvider } from "react-helmet-async";
 
 const Register = loadable(() => import("./pages/Register"));
 const NotFound = loadable(() => import("./pages/NotFound"));
@@ -32,16 +36,33 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={layout}>
-        <Route index element={<Home />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Date/:id" element={<Date />} />
-        <Route path="/Chart" element={<Chart />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <>
+      <HelmetProvider>
+        <SWRConfig value={{ provider: () => new Map() }}>
+          <Routes>
+            <Route path="/" element={layout}>
+              <Route index element={<Home />} />
+              <Route path="/Register" element={<Register />} />
+              <Route path="/Login" element={<Login />} />
+              <Route path="/Date/:id" element={<Date />} />
+              <Route path="/Chart" element={<Chart />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </SWRConfig>
+      </HelmetProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 }
 
