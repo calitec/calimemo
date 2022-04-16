@@ -2,12 +2,12 @@
 import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { httpCall } from "../utils/http";
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../utils/fetcher";
 import { Button } from "antd";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
+import axios from "axios";
 
 export default function Date() {
   const { id } = useParams();
@@ -42,7 +42,9 @@ export default function Date() {
   const onDestroy = async (e) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await httpCall("delete", `/date/${id}`, content);
+        await axios.delete(`/date/${id}`, content, {
+          withCredentials: true,
+        });
         mutate(`/date/${id}`);
         navigate("/");
       } catch (err) {
@@ -60,7 +62,9 @@ export default function Date() {
       try {
         mutate("/date", content, false);
         setLoading(true);
-        await httpCall("post", `/date`, content);
+        await axios.post("/date", content, {
+          withCredentials: true,
+        });
         setLoading(false);
         mutate("/date");
         navigate("/");
@@ -71,7 +75,9 @@ export default function Date() {
       try {
         mutate(`/date/${id}`, content, false);
         setLoading(true);
-        await httpCall("put", `/date/${id}`, content);
+        await axios.put(`/date/${id}`, content, {
+          withCredentials: true,
+        });
         setLoading(false);
         mutate(`/date/${id}`);
         navigate("/");

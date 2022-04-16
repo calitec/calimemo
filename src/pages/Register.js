@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button } from "antd";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
-import { httpCall } from "../utils/http";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function Register() {
   const [info, setInfo] = useState({
@@ -55,7 +55,9 @@ export default function Register() {
       return;
     }
     try {
-      await httpCall("post", "/user", data);
+      await axios.post("/user", data, {
+        withCredentials: true,
+      });
       toast.info("회원가입이 완료 되었습니다.");
       navigate("/Login");
     } catch (err) {

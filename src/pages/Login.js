@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Input, Button, Checkbox } from "antd";
 import useSWR from "swr";
 import fetcher from "../utils/fetcher";
-import { httpCall } from "../utils/http";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -50,7 +50,9 @@ export default function Login() {
     e.preventDefault();
     const data = info;
     try {
-      const posted = await httpCall("post", "/user/login", data);
+      const posted = await axios.post("/user/login", data, {
+        withCredentials: true,
+      });
       if (posted) {
         if (saveUsername) {
           localStorage.setItem("username", username);

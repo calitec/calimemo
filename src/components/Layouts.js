@@ -10,9 +10,9 @@ import {
 } from "@ant-design/icons";
 import moment from "moment";
 import { useState } from "react";
-import { httpCall } from "../utils/http";
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../utils/fetcher";
+import axios from "axios";
 
 export default function Layouts() {
   const navigate = useNavigate();
@@ -32,12 +32,18 @@ export default function Layouts() {
   );
 
   useEffect(() => {
+    mutate("/user");
+  }, []);
+
+  useEffect(() => {
     setSelectedKey(items.find((_item) => pathname.endsWith(_item.path))?.key);
   }, [pathname]);
 
   const onLogout = async () => {
     mutate("/user", null, false);
-    await httpCall("post", "/user/logout");
+    await axios.post("/user/logout", {
+      withCredentials: true,
+    });
     mutate("/user");
     navigate("/Login");
   };

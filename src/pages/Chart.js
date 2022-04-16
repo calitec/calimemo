@@ -14,6 +14,7 @@ import useScreenSize from "../hooks/useScreenSize";
 import fetcher from "../utils/fetcher";
 import { httpCall } from "../utils/http";
 import { Button } from "antd";
+import axios from "axios";
 
 export default function Chart() {
   const { data, error } = useSWR("/date", fetcher);
@@ -27,16 +28,24 @@ export default function Chart() {
       setPlace(JSON.parse(getPlaceAtSession));
       return;
     }
-    try {
-      async function getPlace() {
-        const placeData = await httpCall("get", "/place");
-        await sessionStorage.setItem("place", JSON.stringify(placeData));
-        await setPlace(placeData);
+    const CancelToken = axios.CancelToken;
+    let cancel;
+    (async () => {
+      try {
+        const placeData = await axios.get("/place", {
+          withCredentials: true,
+          cancelToken: new CancelToken(function executor(c) {
+            cancel = c;
+          }),
+        });
+        sessionStorage.setItem("place", JSON.stringify(placeData.data));
+        setPlace(placeData.data);
+        cancel = null;
+      } catch (err) {
+        console.error(err);
       }
-      getPlace();
-    } catch (err) {
-      console.error(err);
-    }
+      return () => cancel();
+    })();
   }, []);
 
   useEffect(() => {
@@ -77,9 +86,11 @@ export default function Chart() {
     try {
       setPlace(null);
       sessionStorage.clear();
-      const getPlace = await httpCall("get", "/place");
-      await sessionStorage.setItem("place", JSON.stringify(getPlace));
-      await setPlace(getPlace);
+      const getPlace = await axios.get("/place", {
+        withCredentials: true,
+      });
+      sessionStorage.setItem("place", JSON.stringify(getPlace));
+      setPlace(getPlace);
     } catch (err) {
       console.error(err);
     }
