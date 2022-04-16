@@ -41,7 +41,7 @@ export default function Layouts() {
 
   const onLogout = async () => {
     mutate("/user", null, false);
-    await axios.post("/user/logout", {
+    await axios.post("/user/logout", null, {
       withCredentials: true,
     });
     mutate("/user");
