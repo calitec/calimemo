@@ -25,6 +25,9 @@ const wrapper = css`
     object-fit: cover;
   }
   span {
+    margin-top: 15px;
+  }
+  span {
     display: inline-block;
     width: 10%;
     height: 12px;
