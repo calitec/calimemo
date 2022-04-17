@@ -156,7 +156,6 @@ const wrapper = (collapsed) => css`
     .site-layout-background {
       position: relative;
       height: 100%;
-      padding: 1em 0;
       background-color: #ffffff;
     }
   }

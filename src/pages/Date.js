@@ -142,7 +142,7 @@ export default function Date() {
 }
 
 const wrapper = css`
-  padding: 0 1em 1em 1em;
+  padding: 1em;
   ul {
     display: flex;
     li {

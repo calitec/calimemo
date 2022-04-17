@@ -8,7 +8,7 @@ import { SmileTwoTone, MehTwoTone, FrownTwoTone } from "@ant-design/icons";
 
 export default function CleanData() {
   const { data, error } = useSWR("/date", fetcher);
-  const [cleanData, setCleanData] = useState([]);
+  const [cleanData, setCleanData] = useState(null);
 
   useEffect(() => {
     if (data && data.length) {
@@ -23,6 +23,7 @@ export default function CleanData() {
         }
       });
       setCleanData(obj);
+      console.log(cleanData);
     }
   }, [data]);
 

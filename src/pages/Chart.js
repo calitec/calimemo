@@ -143,7 +143,7 @@ export default function Chart() {
           </ResponsiveContainer>
         </div>
         <div className="suggestion">
-          <span>이번주는 여기 놀러가는거 어때요?</span>
+          <span>이번주는 여기 놀러가는게 어때요?</span>
           {place ? (
             <>
               <div>
