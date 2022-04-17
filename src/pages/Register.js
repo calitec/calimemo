@@ -8,6 +8,7 @@ import fetcher from "../utils/fetcher";
 import { toast } from "react-toastify";
 import { myAxios } from "../utils/http";
 import { Helmet } from "react-helmet-async";
+import { SmileTwoTone } from "@ant-design/icons";
 
 export default function Register() {
   const [info, setInfo] = useState({
@@ -74,7 +75,12 @@ export default function Register() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Helmet>
       <section css={wrapper}>
-        <h3>회원가입</h3>
+        <div>
+          <span>
+            <SmileTwoTone />
+          </span>
+          <h3>회원가입</h3>
+        </div>
         <Form
           name="basic"
           labelCol={{
@@ -131,11 +137,33 @@ export default function Register() {
 const wrapper = css`
   width: 20%;
   margin: 15vh auto 0;
-  h3 {
-    font: 500 25px/25px "Noto Sans KR";
-    color: #363636;
+  > div {
+    position: relative;
+    left: -8px;
     text-align: center;
-    margin-bottom: 2em;
+    > span,
+    h3 {
+      display: inline-block;
+    }
+    span {
+      vertical-align: top;
+      margin-right: 3px;
+      svg {
+        font-size: 25px;
+        path {
+          fill: yellow;
+        }
+        path:not(:nth-of-type(2)) {
+          fill: #000000;
+        }
+      }
+    }
+    h3 {
+      display: inline-block;
+      font: 500 25px/25px "Noto Sans KR";
+      color: #363636;
+      margin-bottom: 2em;
+    }
   }
   form {
     > input,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Calendar } from "antd";
 import locale from "antd/es/calendar/locale/ko_KR";
 import Cell from "./Cell";

@@ -61,7 +61,7 @@ export default function Date() {
         return toast.error("감정과 내용을 입력해 주세요.");
       }
       try {
-        mutate("/date", content, false);
+        mutate("/date", { ...data, content }, false);
         setLoading(true);
         await myAxios.post("/date", content, {
           withCredentials: true,
@@ -74,7 +74,7 @@ export default function Date() {
       }
     } else {
       try {
-        mutate(`/date/${id}`, content, false);
+        mutate(`/date/${id}`, { ...data, content }, false);
         setLoading(true);
         await myAxios.put(`/date/${id}`, content, {
           withCredentials: true,
@@ -142,7 +142,7 @@ export default function Date() {
 }
 
 const wrapper = css`
-  padding: 1em;
+  padding: 0 1em 1em 1em;
   ul {
     display: flex;
     li {

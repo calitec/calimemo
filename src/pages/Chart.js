@@ -17,6 +17,7 @@ import SkeletonChart from "../components/SkeletonChart";
 import { Button } from "antd";
 import { myAxios } from "../utils/http";
 import { Helmet } from "react-helmet-async";
+import { MyEmotion } from "../utils/emotions";
 
 export default function Chart() {
   const { data, error } = useSWR("/date", fetcher);
@@ -50,37 +51,59 @@ export default function Chart() {
   }, []);
 
   useEffect(() => {
-    let arr = [];
-
-    function Emotions(name) {
-      this.name = name;
-      this.value = 0;
-      this.count = function () {
-        this.value++;
-      };
-    }
-
-    const good = new Emotions("좋음");
-    const bland = new Emotions("보통");
-    const bad = new Emotions("나쁨");
-
-    for (let item in data) {
-      switch (data[item].emotion) {
-        case "좋음":
-          good.count();
-          break;
-        case "보통":
-          bland.count();
-          break;
-        case "나쁨":
-          bad.count();
-          break;
-        default:
+    if (data) {
+      const obj = [
+        { name: "좋음", value: 0 },
+        { name: "보통", value: 0 },
+        { name: "나쁨", value: 0 },
+      ];
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < obj.length; j++) {
+          if (data[i].emotion == obj[j].name) {
+            obj[j].value++;
+          }
+        }
       }
+      setGraph(obj);
     }
-
-    arr = [...arr, good, bad, bland];
-    setGraph(arr);
+    // let arr = [];
+    // function MyEmotion(name) {
+    //   this.name = name;
+    //   this.value = 0;
+    //   this.count = function () {
+    //     this.value++;
+    //   };
+    // }
+    // class MyEmotion {
+    //   constructor(name) {
+    //     this.name = name;
+    //     this.value = 0;
+    //   }
+    //   count() {
+    //     this.value++;
+    //   }
+    // }
+    // const good = new MyEmotion("좋음");
+    // const bland = new MyEmotion("보통");
+    // const bad = new MyEmotion("나쁨");
+    // if (data) {
+    //   for (let item of data) {
+    //     switch (item.emotion) {
+    //       case "좋음":
+    //         good.count();
+    //         break;
+    //       case "보통":
+    //         bland.count();
+    //         break;
+    //       case "나쁨":
+    //         bad.count();
+    //         break;
+    //       default:
+    //     }
+    //   }
+    // }
+    // arr = [...arr, good, bad, bland];
+    // setGraph(arr);
   }, [data]);
 
   const onRefresh = async () => {
@@ -106,7 +129,7 @@ export default function Chart() {
       </Helmet>
       <section css={wrapper}>
         <div>
-          <span>나의 감정 그래프</span>
+          <span>전체 감정 그래프</span>
           <ResponsiveContainer width={"100%"} aspect={width < 414 ? 1 : 2}>
             <LineChart
               data={graph}

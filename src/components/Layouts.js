@@ -13,6 +13,7 @@ import { useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../utils/fetcher";
 import { myAxios } from "../utils/http";
+import CleanData from "./CleanData";
 
 export default function Layouts() {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export default function Layouts() {
   const { pathname } = useLocation();
   const { data } = useSWR("/user", fetcher);
   const { mutate } = useSWRConfig();
-
   const { Content, Sider } = Layout;
   const items = [
     { key: "1", path: "/" },
@@ -50,6 +50,7 @@ export default function Layouts() {
 
   return (
     <Layout css={wrapper(collapsed)}>
+      {/* 사이드 메뉴 */}
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={[selectedKey]} mode="inline">
@@ -72,6 +73,7 @@ export default function Layouts() {
           </Menu.Item>
         </Menu>
       </Sider>
+      {/* 모바일 사이드 메뉴 */}
       <aside className="mobile-aside">
         <Menu theme="dark" defaultSelectedKeys={[selectedKey]} mode="inline">
           <Menu.Item key="1">
@@ -106,6 +108,9 @@ export default function Layouts() {
                 : moment(pathname.split("/")[2]).format("YYYY. MM. DD.")}
             </Breadcrumb.Item>
           </Breadcrumb>
+          {/* 클린 데이터 */}
+          <CleanData />
+          {/* 메인 */}
           <div className="site-layout-background">
             <Outlet />
           </div>
@@ -126,9 +131,6 @@ const wrapper = (collapsed) => css`
     padding: 0;
     z-index: 3;
   }
-  .ant-breadcrumb-link {
-    font: 500 20px/20px "Noto Sans";
-  }
   .ant-layout-sider {
     position: fixed;
     top: 0;
@@ -147,6 +149,9 @@ const wrapper = (collapsed) => css`
     .ant-breadcrumb {
       padding: 0.6em 1em;
       background-color: #ffffff;
+      .ant-breadcrumb-link {
+        font: 500 20px/20px "Noto Sans";
+      }
     }
     .site-layout-background {
       position: relative;

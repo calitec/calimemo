@@ -7,6 +7,7 @@ import useSWR from "swr";
 import fetcher from "../utils/fetcher";
 import { myAxios } from "../utils/http";
 import { Helmet } from "react-helmet-async";
+import { SmileTwoTone } from "@ant-design/icons";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -81,7 +82,13 @@ export default function Login() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Helmet>
       <section css={wrapper}>
-        <h3>로그인</h3>
+        <div>
+          <span>
+            <SmileTwoTone />
+          </span>
+          <h3>로그인</h3>
+        </div>
+
         <Form
           name="basic"
           labelCol={{
@@ -149,12 +156,35 @@ export default function Login() {
 const wrapper = css`
   width: 20%;
   margin: 15vh auto 0;
-  h3 {
-    font: 500 25px/25px "Noto Sans KR";
-    color: #363636;
+  > div {
+    position: relative;
+    left: -8px;
     text-align: center;
-    margin-bottom: 2em;
+    > span,
+    h3 {
+      display: inline-block;
+    }
+    span {
+      vertical-align: top;
+      margin-right: 3px;
+      svg {
+        font-size: 25px;
+        path {
+          fill: yellow;
+        }
+        path:not(:nth-of-type(2)) {
+          fill: #000000;
+        }
+      }
+    }
+    h3 {
+      display: inline-block;
+      font: 500 25px/25px "Noto Sans KR";
+      color: #363636;
+      margin-bottom: 2em;
+    }
   }
+
   form {
     > input,
     > span {
