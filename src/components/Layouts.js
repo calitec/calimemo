@@ -32,10 +32,6 @@ export default function Layouts() {
   );
 
   useEffect(() => {
-    mutate("/user");
-  }, []);
-
-  useEffect(() => {
     setSelectedKey(items.find((_item) => pathname.endsWith(_item.path))?.key);
   }, [pathname]);
 

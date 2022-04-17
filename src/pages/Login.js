@@ -16,6 +16,7 @@ export default function Login() {
   });
   const { username, password } = info;
   const [saveUsername, setSaveUsername] = useState(false);
+  const [error, setError] = useState("");
   const { data } = useSWR("/user", fetcher);
 
   useEffect(() => {
@@ -63,7 +64,8 @@ export default function Login() {
         navigate("/");
       }
     } catch (err) {
-      console.error(err);
+      console.error(err.response);
+      setError(err.response.data.message);
     }
   };
 
@@ -109,6 +111,7 @@ export default function Login() {
             required
             onChange={onChange}
           />
+          <div className="error-message">{error}</div>
           <Form.Item
             name="remember"
             valuePropName={saveUsername && "checked"}
@@ -183,6 +186,9 @@ const wrapper = css`
   .ant-form-item-control {
     margin-left: 0;
     max-width: 100%;
+  }
+  .error-message {
+    color: red;
   }
   @media screen and (max-width: 768px) {
     width: 90%;
