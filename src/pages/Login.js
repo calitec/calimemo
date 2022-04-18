@@ -80,6 +80,12 @@ export default function Login() {
         <title>로그인 | Calimemo</title>
         <meta name="robots" content="noindex" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="preload"
+          href="http://api.calimemo.info/user"
+          as="fetch"
+          crossorigin="anonymous"
+        ></link>
       </Helmet>
       <section css={wrapper}>
         <div>
