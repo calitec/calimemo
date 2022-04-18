@@ -11,8 +11,8 @@ export default function CleanData() {
   const [cleanData, setCleanData] = useState(null);
 
   useEffect(() => {
+    const obj = { 좋음: 0, 보통: 0, 나쁨: 0 };
     if (data && data.length) {
-      const obj = { 좋음: 0, 보통: 0, 나쁨: 0 };
       data.forEach((v) => {
         const candidates = moment(v.selectedDate).format("MMDD").substr(0, 2);
         const thisMonth = moment().format("MMDD").substr(0, 2);
@@ -23,29 +23,30 @@ export default function CleanData() {
         }
       });
       setCleanData(obj);
-      console.log(cleanData);
+    } else {
+      setCleanData(obj);
     }
+    console.log(cleanData);
   }, [data]);
 
   return (
     <ul css={wrapper}>
       <span>이 달의 기분</span>
-      {cleanData && (
-        <>
-          <li>
-            <SmileTwoTone />
-            <em>{cleanData["좋음"]}</em>
-          </li>
-          <li>
-            <MehTwoTone />
-            <em>{cleanData["보통"]}</em>
-          </li>
-          <li>
-            <FrownTwoTone />
-            <em>{cleanData["나쁨"]}</em>
-          </li>
-        </>
-      )}
+      {/* {cleanData && ( */}
+      <>
+        <li>
+          <SmileTwoTone />
+          <em>{cleanData?.["좋음"] ?? 0}</em>
+        </li>
+        <li>
+          <MehTwoTone />
+          <em>{cleanData?.["보통"] ?? 0}</em>
+        </li>
+        <li>
+          <FrownTwoTone />
+          <em>{cleanData?.["나쁨"] ?? 0}</em>
+        </li>
+      </>
     </ul>
   );
 }

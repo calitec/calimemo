@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import loadable from "@loadable/component";
 import Layouts from "./components/Layouts";
-import useSWR, { SWRConfig } from "swr";
+import useSWR from "swr";
 import fetcher from "./utils/fetcher";
 import { ToastContainer } from "react-toastify";
 import "./index.css";
@@ -38,18 +38,16 @@ function App() {
   return (
     <>
       <HelmetProvider>
-        <SWRConfig value={{ provider: () => new Map() }}>
-          <Routes>
-            <Route path="/" element={layout}>
-              <Route index element={<Home />} />
-              <Route path="/Register" element={<Register />} />
-              <Route path="/Login" element={<Login />} />
-              <Route path="/Date/:id" element={<Date />} />
-              <Route path="/Chart" element={<Chart />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </SWRConfig>
+        <Routes>
+          <Route path="/" element={layout}>
+            <Route index element={<Home />} />
+            <Route path="/Register" element={<Register />} />
+            <Route path="/Login" element={<Login />} />
+            <Route path="/Date/:id" element={<Date />} />
+            <Route path="/Chart" element={<Chart />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
       </HelmetProvider>
       <ToastContainer
         position="top-right"
